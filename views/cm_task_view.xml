@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record model="ir.ui.view" id="view_form_cm_task">
+		<field name="name">Customer Task Form</field>	
+		<field name="model">cm.task</field>
+		<field name="arch" type="xml">
+			<form string="Customer Task">
+				<header>
+					<button name="do_toggle_done" type="object"
+							string="Toggle Done" class="oe_highlight"/>
+					<button name="do_clear_done" type="object"
+							string="Clear All Done"/>	
+				</header>	
+				<sheet>
+					<group name="group_top">
+						<group name="group_left">
+							<field name="name"/>	
+							<field name="customer_id"/>
+						</group>	
+						<group name="group_right">
+							<field name="req_time"/>
+							<field name="is_done"/>
+							<field name="active" readonly="1"/>	
+						</group>
+					</group>	
+				</sheet>
+			</form>	
+		</field>
+	</record>
+
+	
+	<record model="ir.ui.view" id="view_kanban_cm_task">
+		<field name="name">Customer Task Kanban</field>
+		<field name="model">cm.task</field>
+		<field name="arch" type="xml">
+			<kanban default_group_by="customer_id">
+				<field name="color"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_color_{{kanban_getcolor{record.color.raw_value}}} 
+								oe_kanban_global_click_edit_oe_semantic_html_override 
+								oe_kanban_card {{record.group_fancy==1 ? 'oe_kanban_card_fancy' : ''}}">
+								<div class="oe_dropdown_kanban">
+									<!-- dropdown menu -->
+									<div class="oe_dropdown_toggle">
+										<i class="fa fa-bars fa-lg"/>
+										<ul class="oe_dropdown_menu">
+											<li>
+												<a type="delete">Delete</a>	
+											</li>	
+											<li>
+												<ul class="oe_kanban_colorpicker" data-field="color"/>	
+											</li>
+										</ul>	
+									</div>
+									<div class="oe_clear"></div>
+								</div>	
+								<div t-attf-class="oe_kanban_content">
+									<!-- title -->
+									Task name: 
+									<field name="name"/>
+									Required time: 
+									<field name="req_time"/>
+									Remaining time:
+									<br/>	
+								</div>
+						</div>	
+					</t>
+				</templates>	
+			</kanban>	
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="cm_task_list_action">
+		<field name="name">Customer Task</field>
+		<field name="res_model">cm.task</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form,kanban</field>	
+	</record>
+	<menuitem id="main_cm_task_menu" name="Customer Tasks"/>
+	<menuitem id="task_menu" name="Customer Task"/>
+	<menuitem id="cm_task_menu" name="Customer Tasks" parent="task_menu" action="cm_task_list_action"/>
+</odoo>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<!--Action to open Customer Task -->
+	<act_window id="action_cm_task" 
+			name="Customer Tasks" 
+			res_model="cm.task" 
+			view_mode="tree,form"/>
+	
+	<!-- Menu item to open Customer Task -->
+	<menuitem id="menu_cm_task" name="Customer Tasks" action="action_cm_task"/>
+</odoo>
